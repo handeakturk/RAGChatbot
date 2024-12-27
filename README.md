@@ -7,8 +7,8 @@ RAG Chatbot, PDF belgelerini işlemek ve analiz etmek için tasarlanmış akıll
 ## Genel Bakış
 
 Bu proje, önceden tanımlanmış PDF dosyalarını işleyen, vektör veri tabanına indeksleyen ve kullanıcıların içerikle ilgili sorular sormasına olanak tanıyan bir Retrieval-Augmented Generation (RAG) chatbotudur. Özellikle finansal belgeler, teknik kılavuzlar veya yasal sözleşmeler gibi büyük veri setlerini işlemek için idealdir.
-![Arayüz Örneği](app/static/img/Screenshot%202024-12-27%20174840.png)
-![Arayüz Örneği](app/static/img/Screenshot%202024-12-27%20174847.png)
+![Arayüz Örneği](static/img/Screenshot%202024-12-27%20174840.png)
+![Arayüz Örneği](static/img/Screenshot%202024-12-27%20174847.png)
 
 ### Temel Teknolojiler
 
