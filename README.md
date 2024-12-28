@@ -104,12 +104,12 @@ chatbot_project/
 │   │   ├── vectorstore.py    # Vektör depolama mantığı
 ├── scripts/
 │   └── standalone_embed.bat  # Milvus başlatma betiği
-├── static/                   # Statik dosyalar (img, css vb.)
+├── static/img                # Statik dosyalar (img)
 ├── .env                      # Ortam değişkenleri
 ├── alembic.ini               # Alembic yapılandırması
 ├── app.py                    # WSGI giriş noktası
 ├── main.py                   # FastAPI giriş noktası
-├── README.md                 # Proje belgeleri
+├── README.md                 # Proje tanıtımı
 ├── requirements.txt          # Python bağımlılıkları
 ├── wsgi.py                   # WSGI dağıtım ayarları
 ```
