@@ -13,6 +13,7 @@ Bu proje, önceden tanımlanmış PDF dosyalarını işleyen, vektör veri taban
 
 
 **Şekil 2:** PDF Belgesindeki İlgili Bölüm
+
 ![Arayüz Örneği](chatbot_project/static/img/dokuman.png)
 
 
