@@ -145,12 +145,12 @@ chatbot_project/
    ```
 
 4. **Milvus'u Başlatın**
-   ```bash
    https://milvus.io/docs/install_standalone-windows.md dökümanını takip ederek milvus standalone.bat dosyasını indirin.
-   Terminalden `standalone.bat start`'i çalıştırın.
+   ```bash
+   `standalone.bat start`
    ```
 
-5. **Veritabanı Geçişlerini Uygulayın**
+6. **Veritabanı Geçişlerini Uygulayın**
    Alembic geçişlerini başlatın ve uygulayın:
    ```bash
    alembic init migrations
@@ -158,12 +158,12 @@ chatbot_project/
    alembic upgrade head
    ```
 
-6. **FastAPI Sunucusunu Başlatın**
+7. **FastAPI Sunucusunu Başlatın**
    ```bash
    uvicorn main:app --reload
    ```
 
-7. **Streamlit Arayüzünü Başlatın**
+8. **Streamlit Arayüzünü Başlatın**
    ```bash
    streamlit run app.py
    ```
