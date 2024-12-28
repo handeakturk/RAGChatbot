@@ -1,14 +1,18 @@
 # RAG Chatbot
 
-RAG Chatbot, PDF belgelerini işlemek ve analiz etmek için tasarlanmış akıllı bir soru-cevaplama sistemidir. FastAPI, Azure OpenAI, Milvus ve SQLAlchemy kullanılarak geliştirilmiştir. Kullanıcıların **T. İş Bankası Temmuz 2023 Halka Arzı - İhraççı Bilgi Dokümanı** üzerinden sorular sormasına olanak tanır ve belgelerden bağlama duyarlı, doğru yanıtlar sağlar.
+PDF belgelerini işlemek ve analiz etmek için tasarlanmış akıllı bir soru-cevaplama sistemidir. FastAPI, Azure OpenAI, Milvus ve SQLAlchemy kullanılarak geliştirilmiştir. Kullanıcıların **T. İş Bankası Temmuz 2023 Halka Arzı - İhraççı Bilgi Dokümanı** üzerinden sorular sormasına olanak tanır ve belgelerden bağlama duyarlı, doğru yanıtlar sağlar.
 
 ---
 
 ## Genel Bakış
 
-Bu proje, önceden tanımlanmış PDF dosyalarını işleyen, vektör veri tabanına indeksleyen ve kullanıcıların içerikle ilgili sorular sormasına olanak tanıyan bir Retrieval-Augmented Generation (RAG) chatbotudur. Özellikle finansal belgeler, teknik kılavuzlar veya yasal sözleşmeler gibi büyük veri setlerini işlemek için idealdir.
+Bu proje, önceden tanımlanmış PDF dosyalarını işleyen, vektör veri tabanına indeksleyen ve kullanıcıların içerikle ilgili sorular sormasına olanak tanıyan bir Retrieval-Augmented Generation (RAG) chatbotudur.
+
 ![Arayüz Örneği](chatbot_project/static/img/streamlit.png)
+**Şekil 1:** Streamlit Arayüzü
+
 ![Arayüz Örneği](chatbot_project/static/img/dokuman.png)
+**Şekil 2:** PDF Belgesindeki İlgili Bölüm
 
 ### Temel Teknolojiler
 
@@ -23,7 +27,7 @@ Bu proje, önceden tanımlanmış PDF dosyalarını işleyen, vektör veri taban
 
 ## Özellikler
 
-1. **Önceden İndekslenmiş PDF**: Önceden tanımlı bir PDF (ör. T. İş Bankası'nın finansal raporu) üzerinden sorgu yanıtlar.
+1. **Önceden İndekslenmiş PDF**: Önceden tanımlı bir PDF üzerinden sorgu yanıtlar.
 2. **Bağlam Duyarlı Soru-Cevaplama**: GPT ile belge embedding'lerini birleştirerek alakalı yanıtlar sağlar.
 3. **Ölçeklenebilir Altyapı**: Milvus ile yüksek hızlı vektör benzerlik aramaları yapılır.
 4. **Kapsamlı Kayıt Tutma**: MSSQL kullanarak kullanıcı sorgularını ve performans metriklerini takip eder.
@@ -33,25 +37,17 @@ Bu proje, önceden tanımlanmış PDF dosyalarını işleyen, vektör veri taban
 
 ## Kullanım Senaryoları
 
-1. **Yatırım Kararları**
-   - Detaylı finansal raporları analiz eder ve özel bilgiler sunar.
-   - Örnek: "TSKB çevresel yönetim sistemi hakkında bilgi verir misin?"
+**Kurumsal Araştırmalar**
 
-2. **Kurumsal Araştırmalar**
-   - Teknik kılavuzlar veya politika belgelerinden bilgi çıkarır.
-   - Örnek: "Banka’nın sürdürülebilirlik stratejisi hakkında bilgi verir misin?"
-
-3. **Hukuki ve Uyumluluk İncelemeleri**
-   - Hukuki sözleşmelerde veya uyumluluk yönergelerinde kilit bölümleri hızlıca bulur.
-   - Örnek: "Sözleşme ihlalleri için belirtilen cezalar nelerdir?"
+- Örnek: "Banka’nın sürdürülebilirlik stratejisi hakkında bilgi verir misin?"
+- Örnek: "TSKB çevresel yönetim sistemi hakkında bilgi verir misin?"
+- Örnek: "Sözleşme ihlalleri için belirtilen cezalar nelerdir?"
 
 ---
 
-## Mimari
+## Şema
 
-### Güncellenmiş İş Akışı
-
-1. **PDF**: Sistem, statik bir PDF dosyasını (ör. İş Bankası Halka Arzı) kullanır, bu dosya önceden işlenir ve indekslenir.
+1. **PDF**: Sistem, statik bir PDF dosyasını  kullanır, bu dosya önceden işlenir ve indekslenir.
 2. **Embedding**: Belgeler daha küçük parçalara bölünür ve Azure OpenAI kullanılarak vektör embedding'lerine dönüştürülür.
 3. **Vektör Database**: Embedding'ler, benzerlik tabanlı sorgular için Milvus'ta saklanır.
 4. **Sorgu İşleme**: Kullanıcı sorguları işlenir, vektörleştirilir ve saklanan embedding'lerle eşleştirilir.
@@ -79,19 +75,36 @@ Bu proje, önceden tanımlanmış PDF dosyalarını işleyen, vektör veri taban
 ```
 chatbot_project/
 ├── app/
-│   ├── main.py           # FastAPI giriş noktası
-│   ├── config.py         # Uygulama yapılandırması
-│   ├── models.py         # SQLAlchemy modelleri
-│   ├── routes.py         # API rotaları
-│   ├── services.py       # Çekirdek mantık ve yanıt oluşturma
-│   ├── utils.py          # Yardımcı fonksiyonlar
-│   ├── templates/        # Streamlit şablonları
-│   └── wsgi.py           # WSGI üretim giriş noktası
-├── migrations/           # Alembic geçişleri
-├── requirements.txt      # Python bağımlılıkları
-├── Dockerfile            # Docker yapılandırması
-├── docker-compose.yml    # Milvus kurulumu
-└── README.md             # Proje belgeleri
+│   ├── configs/
+│   │   ├── config.py         # Uygulama yapılandırması
+│   │   ├── database.py       # Veritabanı bağlantı mantığı
+│   │   ├── embedEtcd.yaml    # Ek yapılandırma dosyaları
+│   │   ├── user.yaml         # Kullanıcı yapılandırmaları
+│   ├── doc/
+│   │   └── banka.pdf         # İşlenen PDF dosyası
+│   ├── logger/               # Loglama işlemleri
+│   │   ├── logging.py        # Loglama işlevselliği
+│   │   ├── logging_utils.py  # Loglama yardımcı işlevleri
+│   ├── routers/
+│   │   ├── __init__.py
+│   │   ├── search.py         # API arama rotası
+│   ├── schemas/
+│   │   ├── contextualize_q_prompt.jinja2
+│   │   ├── qa_system_prompt.jinja2
+│   ├── services/
+│   │   ├── chains.py         # Zincirleme sorgu mantığı
+│   │   ├── middleware.py     # Middleware işlemleri
+│   │   ├── vectorstore.py    # Vektör depolama mantığı
+├── scripts/
+│   └── standalone_embed.bat  # Milvus başlatma betiği
+├── static/                   # Statik dosyalar (img, css vb.)
+├── .env                      # Ortam değişkenleri
+├── alembic.ini               # Alembic yapılandırması
+├── app.py                    # WSGI giriş noktası
+├── main.py                   # FastAPI giriş noktası
+├── README.md                 # Proje belgeleri
+├── requirements.txt          # Python bağımlılıkları
+├── wsgi.py                   # WSGI dağıtım ayarları
 ```
 
 ---
@@ -116,7 +129,7 @@ chatbot_project/
 2. **Python Sanal Ortamı Oluşturun**
    ```bash
    python -m venv venv
-   source venv/bin/activate  # Windows: venv\Scripts\activate
+   Windows: venv/Scripts/activate
    ```
 
 3. **Bağımlılıkları Yükleyin**
@@ -125,7 +138,10 @@ chatbot_project/
    ```
 
 4. **Milvus'u Başlatın**
+   ```bash
+   https://milvus.io/docs/install_standalone-windows.md dökümanını takip ederek milvus standalone.bat dosyasını indirin.
    Terminalden `standalone.bat start`'i çalıştırın.
+   ```
 
 5. **Veritabanı Geçişlerini Uygulayın**
    Alembic geçişlerini başlatın ve uygulayın:
@@ -137,12 +153,12 @@ chatbot_project/
 
 6. **FastAPI Sunucusunu Başlatın**
    ```bash
-   uvicorn app.main:app --host 0.0.0.0 --port 8000
+   uvicorn main:app --reload
    ```
 
 7. **Streamlit Arayüzünü Başlatın**
    ```bash
-   streamlit run app/streamlit_app.py
+   streamlit run app.py
    ```
    Streamlit arayüzüne erişmek için: `http://localhost:8501`
 
@@ -168,8 +184,50 @@ chatbot_project/
 
 ---
 
+## .env Dosyası İçeriği
 
-## Lisans
+`.env` dosyasını aşağıdaki şekilde oluşturup doldurun:
+
+```env
+AZURE_OPENAI_ENDPOINT=<Azure OpenAI endpoint URL>
+AZURE_MODEL_NAME=<Kullanılan model adı>
+AZURE_DEPLOYMENT_NAME=<Azure'deki dağıtım adı>
+AZURE_OPENAI_API_VERSION=<API versiyonu örn: "2023-03-15">
+AZURE_OPENAI_API_KEY=<Azure API anahtarınız>
+```
+
+Değerleri, Azure OpenAI hesabınızdan alabilirsiniz. Bu bilgiler API ile doğru iletişim kurmak için gereklidir.
+
+---
+
+### Örnek Girdi ve Çıktı
+
+**Search Endpoint'i Kullanımı:**
+Postman uygulamasında yeni bir POST request oluşturarak http://127.0.0.1:8000/search/ adresinden json formatında aşağıdaki gibi sorgu yapabilirsiniz.
+ 
+İstek:
+```json
+{
+    "query": "İş Bankası belgesinde belirtilen risk faktörleri nelerdir?"
+}
+```
+
+Yanıt:
+```json
+{
+    "query": "İş Bankası belgesinde belirtilen risk faktörleri nelerdir?",
+    "answer": "İş Bankası Temmuz 2023 belgesinde aşağıdaki risk faktörleri belirtilmiştir: ..."
+}
+```
+
+**Streamlit Arayüzü Kullanımı:**
+
+Arayüzde sorunuzu girerek hızlı bir şekilde yanıt alabilirsiniz. Örnek soru:
+- "Belgede belirtilen anahtar stratejiler nelerdir?"
+---
+
+
+# Lisans
 
 Bu proje MIT Lisansı ile lisanslanmıştır. Daha fazla bilgi için `LICENSE` dosyasına bakın.
 
@@ -193,4 +251,6 @@ Katkıda bulunmaktan memnuniyet duyarız! Şu adımları izleyin:
    git push origin feature/your-feature-name
    ```
 5. İnceleme için bir pull request oluşturun.
+
+---
 
