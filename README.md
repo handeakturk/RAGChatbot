@@ -147,7 +147,7 @@ chatbot_project/
 4. **Milvus'u Başlatın**
    https://milvus.io/docs/install_standalone-windows.md dökümanını takip ederek milvus standalone.bat dosyasını indirin.
    ```bash
-   `standalone.bat start`
+   standalone.bat start
    ```
 
 6. **Veritabanı Geçişlerini Uygulayın**
