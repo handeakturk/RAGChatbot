@@ -2,6 +2,10 @@
 
 PDF belgelerini işlemek ve analiz etmek için tasarlanmış akıllı bir soru-cevaplama sistemidir. FastAPI, Azure OpenAI, Milvus ve SQLAlchemy kullanılarak geliştirilmiştir. Kullanıcıların **T. İş Bankası Temmuz 2023 Halka Arzı - İhraççı Bilgi Dokümanı** üzerinden sorular sormasına olanak tanır ve belgelerden bağlama duyarlı, doğru yanıtlar sağlar.
 
+## Demo
+
+Proje demosunu izlemek için [YouTube](https://www.youtube.com/watch?v=YourVideoID).
+
 ---
 
 ## Genel Bakış
