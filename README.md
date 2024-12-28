@@ -8,11 +8,13 @@ PDF belgelerini işlemek ve analiz etmek için tasarlanmış akıllı bir soru-c
 
 Bu proje, önceden tanımlanmış PDF dosyalarını işleyen, vektör veri tabanına indeksleyen ve kullanıcıların içerikle ilgili sorular sormasına olanak tanıyan bir Retrieval-Augmented Generation (RAG) chatbotudur.
 
-![Arayüz Örneği](chatbot_project/static/img/streamlit.png)
 **Şekil 1:** Streamlit Arayüzü
+![Arayüz Örneği](chatbot_project/static/img/streamlit.png)
 
-![Arayüz Örneği](chatbot_project/static/img/dokuman.png)
+
 **Şekil 2:** PDF Belgesindeki İlgili Bölüm
+![Arayüz Örneği](chatbot_project/static/img/dokuman.png)
+
 
 ### Temel Teknolojiler
 
@@ -204,7 +206,7 @@ Değerleri, Azure OpenAI hesabınızdan alabilirsiniz. Bu bilgiler API ile doğr
 
 **Search Endpoint'i Kullanımı:**
 Postman uygulamasında yeni bir POST request oluşturarak http://127.0.0.1:8000/search/ adresinden json formatında aşağıdaki gibi sorgu yapabilirsiniz.
- 
+
 İstek:
 ```json
 {
