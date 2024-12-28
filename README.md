@@ -107,7 +107,7 @@ chatbot_project/
 ├── static/img                # Statik dosyalar (img)
 ├── .env                      # Ortam değişkenleri
 ├── alembic.ini               # Alembic yapılandırması
-├── app.py                    # WSGI giriş noktası
+├── app.py                    # Streamlit arayüzü
 ├── main.py                   # FastAPI giriş noktası
 ├── README.md                 # Proje tanıtımı
 ├── requirements.txt          # Python bağımlılıkları
