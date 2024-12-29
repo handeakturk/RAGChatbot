@@ -212,9 +212,9 @@ session = Session()
 ```
 
 5. **Milvus'u Başlatın**
-   https://milvus.io/docs/install_standalone-windows.md dökümanını takip ederek milvus standalone.bat dosyasını indirin.
+   https://milvus.io/docs/install_standalone-windows.md dökümanını takip ederek milvus standalone_embed.bat dosyasını indirin.
    ```bash
-   standalone.bat start
+   standalone_embed.bat start
    ```
 
 6. **Veritabanı Geçişlerini Uygulayın**
@@ -227,7 +227,7 @@ session = Session()
 
 7. **FastAPI Sunucusunu Başlatın**
    ```bash
-   uvicorn main:app --reload
+   python main.py
    ```
 
 8. **Streamlit Arayüzünü Başlatın**
