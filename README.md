@@ -261,6 +261,11 @@ session = Session()
 `.env` dosyasını aşağıdaki şekilde oluşturup doldurun:
 
 ```env
+DB_DRIVER: Kullanılan ODBC sürücüsünü belirtir.
+DB_SERVER: Veritabanı sunucusunun adresini belirtir (localhost, IP veya sunucu adı).
+DB_DATABASE: Bağlanılacak veritabanının adını belirtir.
+DB_TRUSTED_CONNECTION: Güvenli bağlantı kullanılıp kullanılmayacağını belirtir (Yes veya No).
+
 AZURE_OPENAI_ENDPOINT=<Azure OpenAI endpoint URL>
 AZURE_MODEL_NAME=<Kullanılan model adı>
 AZURE_DEPLOYMENT_NAME=<Azure'deki dağıtım adı>
