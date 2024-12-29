@@ -1,51 +1,61 @@
-from sqlalchemy import create_engine, Column, String, Integer, Float, DateTime
-from sqlalchemy.orm import declarative_base, sessionmaker
-from sqlalchemy.engine import URL
-from datetime import datetime
-from dotenv import load_dotenv
 import os
-
-# .env dosyasını yükle
-load_dotenv()
-
-# Çevresel değişkenlerden veritabanı bağlantı bilgilerini al
-DRIVER = os.getenv("DB_DRIVER", "ODBC Driver 17 for SQL Server")
-SERVER = os.getenv("DB_SERVER", "localhost")
-DATABASE = os.getenv("DB_DATABASE", "master")
-TRUSTED_CONNECTION = os.getenv("DB_TRUSTED_CONNECTION", "Yes")
-
-# MSSQL bağlantısı için connection string oluştur
-connection_string = (
-    f"Driver={{{DRIVER}}};"
-    f"Server={SERVER};"
-    f"Database={DATABASE};"
-    f"Trusted_Connection={TRUSTED_CONNECTION};"
+from pymilvus import connections, utility
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_community.vectorstores import Milvus
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_openai import AzureOpenAIEmbeddings
+from app.configs.config import (
+    AZURE_OPENAI_API_KEY,
+    AZURE_OPENAI_ENDPOINT,
+    AZURE_OPENAI_API_VERSION,
+    CHUNK_SIZE,
+    CHUNK_OVERLAP,
+    FILEPATH,
+    MILVUS_URI,
+    COLLECTION_NAME,
 )
+from app.configs.logger.logging import logger
 
-connection_url = URL.create(
-    "mssql+pyodbc",
-    query={"odbc_connect": connection_string}
-)
-engine = create_engine(connection_url)
+def initialize_vectorstore():
+    logger.info("Initializing Milvus Vector Store...")
+    
+    # Milvus bağlantısı
+    logger.info("Connecting to Milvus server...")
+    connections.connect(alias="default", host="localhost", port="19530")
 
-Base = declarative_base()
+   # Embeddings
+    embeddings = AzureOpenAIEmbeddings(  
+    model="text-embedding-ada-002",            # Model adı
+    api_key=AZURE_OPENAI_API_KEY,
+    azure_endpoint=AZURE_OPENAI_ENDPOINT,  # Doğru parametre kullanılıyor
+    openai_api_version=AZURE_OPENAI_API_VERSION
+    )
 
-# Logs tablosu modeli
-class Log(Base):
-    __tablename__ = 'logs'
+    # PDF kontrolü
+    if not os.path.exists(FILEPATH):
+        logger.error(f"PDF file not found: {FILEPATH}")
+        raise FileNotFoundError(f"PDF file not found: {FILEPATH}")
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    request = Column(String, nullable=False)
-    response = Column(String, nullable=False)
-    duration = Column(Float, nullable=False)
-    log_level = Column(String, nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    query_data = Column(String, nullable=True)
-    alembic = Column(Integer, nullable=True)
+    logger.info("Loading PDF...")
+    loader = PyPDFLoader(FILEPATH)
+    documents = loader.load()
+    logger.info(f"Loaded {len(documents)} pages from PDF.")
 
-# Tabloyu oluştur
-Base.metadata.create_all(engine)
+    # Metin parçalama (chunk)
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=CHUNK_SIZE, 
+        chunk_overlap=CHUNK_OVERLAP,
+        length_function=len
+    )
+    docs = text_splitter.split_documents(documents)
 
-# Session oluştur
-Session = sessionmaker(bind=engine)
-session = Session()
+    logger.info(f"Split documents into {len(docs)} chunks.")
+    logger.info(f"Creating/updating Milvus collection: {COLLECTION_NAME}")
+    vectorstore = Milvus.from_documents(
+        docs,
+        embeddings,
+        connection_args={"uri": MILVUS_URI},
+        collection_name=COLLECTION_NAME
+    )
+    logger.info("Milvus Vector Store initialization complete.")
+    return vectorstore
