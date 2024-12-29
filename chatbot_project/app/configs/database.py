@@ -2,13 +2,24 @@ from sqlalchemy import create_engine, Column, String, Integer, Float, DateTime
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.engine import URL
 from datetime import datetime
+from dotenv import load_dotenv
+import os
 
-# MSSQL bağlantısı için engine oluştur
+# .env dosyasını yükle
+load_dotenv()
+
+# Çevresel değişkenlerden veritabanı bağlantı bilgilerini al
+DRIVER = os.getenv("DB_DRIVER")
+SERVER = os.getenv("DB_SERVER")
+DATABASE = os.getenv("DB_DATABASE")
+TRUSTED_CONNECTION = os.getenv("DB_TRUSTED_CONNECTION")
+
+# MSSQL bağlantısı için connection string oluştur
 connection_string = (
-    "Driver={ODBC Driver 17 for SQL Server};"
-    "Server=localhost;"
-    "Database=master;"
-    "Trusted_Connection=Yes;"
+    f"Driver={{{DRIVER}}};"
+    f"Server={SERVER};"
+    f"Database={DATABASE};"
+    f"Trusted_Connection={TRUSTED_CONNECTION};"
 )
 
 connection_url = URL.create(
@@ -38,4 +49,3 @@ Base.metadata.create_all(engine)
 # Session oluştur
 Session = sessionmaker(bind=engine)
 session = Session()
-
