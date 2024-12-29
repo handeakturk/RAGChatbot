@@ -11,6 +11,7 @@ Proje demosunu izlemek için [YouTube](https://www.youtube.com/watch?v=4-o1sY0wQ
 
 ## PDF Belgesi
 İnternetten bulduğum örnek pdf:
+
 https://www.isyatirim.com.tr/tr-tr/hizmetler/kurumsal-finansman/duyurular/Documents/T.%20%C4%B0%C5%9F%20Bankas%C4%B1%20Temmuz%202023%20Halka%20Arz%C4%B1%20-%20%C4%B0hra%C3%A7%C3%A7%C4%B1%20Bilgi%20Dok%C3%BCman%C4%B1.pdf
 
 
