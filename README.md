@@ -149,18 +149,28 @@ Veritabanı bağlantı ayarlarını `configs/database.py` dosyasında yapıland�
 
 `database.py` dosyasındaki örnek yapılandırma:
 
-```python
-from sqlalchemy import create_engine, Column, String, Integer, Float, DateTime
+```from sqlalchemy import create_engine, Column, String, Integer, Float, DateTime
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.engine import URL
 from datetime import datetime
+from dotenv import load_dotenv
+import os
 
-# MSSQL bağlantısı için engine oluştur
+# .env dosyasını yükle
+load_dotenv()
+
+# Çevresel değişkenlerden veritabanı bağlantı bilgilerini al
+DRIVER = os.getenv("DB_DRIVER", "ODBC Driver 17 for SQL Server")
+SERVER = os.getenv("DB_SERVER", "localhost")
+DATABASE = os.getenv("DB_DATABASE", "master")
+TRUSTED_CONNECTION = os.getenv("DB_TRUSTED_CONNECTION", "Yes")
+
+# MSSQL bağlantısı için connection string oluştur
 connection_string = (
-    "Driver={ODBC Driver 17 for SQL Server};"
-    "Server=localhost;"
-    "Database=RAGChatbotDB;"
-    "Trusted_Connection=Yes;"
+    f"Driver={{{DRIVER}}};"
+    f"Server={SERVER};"
+    f"Database={DATABASE};"
+    f"Trusted_Connection={TRUSTED_CONNECTION};"
 )
 
 connection_url = URL.create(
@@ -182,6 +192,7 @@ class Log(Base):
     log_level = Column(String, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     query_data = Column(String, nullable=True)
+    alembic = Column(Integer, nullable=True)
 
 # Tabloyu oluştur
 Base.metadata.create_all(engine)
