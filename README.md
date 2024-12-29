@@ -160,10 +160,10 @@ import os
 load_dotenv()
 
 # Çevresel değişkenlerden veritabanı bağlantı bilgilerini al
-DRIVER = os.getenv("DB_DRIVER", "ODBC Driver 17 for SQL Server")
-SERVER = os.getenv("DB_SERVER", "localhost")
-DATABASE = os.getenv("DB_DATABASE", "master")
-TRUSTED_CONNECTION = os.getenv("DB_TRUSTED_CONNECTION", "Yes")
+DRIVER = os.getenv("DB_DRIVER")
+SERVER = os.getenv("DB_SERVER")
+DATABASE = os.getenv("DB_DATABASE")
+TRUSTED_CONNECTION = os.getenv("DB_TRUSTED_CONNECTION")
 
 # MSSQL bağlantısı için connection string oluştur
 connection_string = (
